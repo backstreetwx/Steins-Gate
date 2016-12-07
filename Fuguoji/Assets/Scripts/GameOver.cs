@@ -9,7 +9,7 @@ public class GameOver : MonoBehaviour {
   public Text GameOverText;
   public Text GameRestartText;
 
-
+  public Text GameFightText;
   private string playerHP;
   private string enemyHP;
 
@@ -29,18 +29,13 @@ public class GameOver : MonoBehaviour {
     playerHP = PlayerHPText.text;
     enemyHP  = EnemyHPText.text;
 
-    if (int.Parse(playerHP) <= 0&& int.Parse(enemyHP)>0) {
+    if (int.Parse(playerHP) <= 0) {
       GameOverText.text = "Player Lose";
       gameOver = true;
     }
 
-    if (int.Parse(playerHP) > 0&& int.Parse(enemyHP)<=0) {
+    if (int.Parse(enemyHP)<=0) {
       GameOverText.text = "Player Win";
-      gameOver = true;
-    }
-
-    if (int.Parse(playerHP) <= 0&& int.Parse(enemyHP)<=0) {
-      GameOverText.text = "Both Dead";
       gameOver = true;
     }
 
