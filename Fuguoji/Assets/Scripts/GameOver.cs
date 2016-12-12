@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class GameOver : MonoBehaviour {
@@ -48,7 +49,7 @@ public class GameOver : MonoBehaviour {
       
       if (Input.GetKeyDown (KeyCode.R))
       {
-        Application.LoadLevel (Application.loadedLevel);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
       }
     }
 
