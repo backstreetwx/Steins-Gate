@@ -5,6 +5,7 @@ using System.Collections;
 using Enemies;
 using Players;
 using GameOver;
+using UI;
 
 namespace GamePlay
 {
@@ -13,21 +14,21 @@ namespace GamePlay
     public PlayerController PlayerObject;
     public EnemyController EnemyObject;
     public GameOverManager GameOverObject;
-    public Text FightMessage;
-    public UnityEvent GameOver;
+    public BattleProgressTextController BatterTextController;
+
+    public UnityEvent GameOverEvent;
 
     // Use this for initialization
     void Start () {
-      GameOver = new UnityEvent();
-      GameOver.AddListener (GameOverObject.GameIsOver);
-
+      GameOverEvent = new UnityEvent();
+      GameOverEvent.AddListener (GameOverObject.GameIsOver);
     }
 
     // Update is called once per frame
     void Update () {
 
       if (EnemyObject.EnemyHP <= 0||PlayerObject.PlayerHP <= 0) {
-        GameOver.Invoke ();
+        GameOverEvent.Invoke ();
       }
     }
 
@@ -40,7 +41,8 @@ namespace GamePlay
 
         PlayerAction ();
         if (EnemyObject.EnemyHP <= 0) {
-          FightMessage.text += "Enemy Dead\n";
+          //FightMessage.text += "Enemy Dead\n";
+          BatterTextController.SetText ("Enemy Dead\n");
         } else {
           EnemyAction ();
         }
@@ -50,7 +52,8 @@ namespace GamePlay
 
         EnemyAction ();
         if (PlayerObject.PlayerHP <= 0) {
-          FightMessage.text += "Player Dead\n";
+          BatterTextController.SetText ("Player Dead\n");
+          //FightMessage.text += "Player Dead\n";
         } else {
           PlayerAction ();
         }
@@ -60,64 +63,77 @@ namespace GamePlay
     }
 
     public void Defense(){
-
-      FightMessage.text += "Player Defense!!\n";
-      FightMessage.text += "Enemy Attack!!\n";
+      
+      //FightMessage.text += "Player Defense!!\n";
+      BatterTextController.SetText ("Player Defense!!\n");
+      BatterTextController.SetText ("Enemy Attack!!\n");
+      //FightMessage.text += "Enemy Attack!!\n";
       if (IsHit(EnemyObject.HitRate,PlayerObject.MissRate)) {
         int _attackOfEnemey = EnemyObject.AttackDamage ();
         if (IsCriticalStrike (EnemyObject.CriticalStrike)) {
           _attackOfEnemey = _attackOfEnemey * 2;
-          FightMessage.text += "Critical Strike!!\n";
+          //FightMessage.text += "Critical Strike!!\n";
+          BatterTextController.SetText ("Critical Strike!!\n");
         }
         Debug.Log ("Enemy attack "+ _attackOfEnemey.ToString());
         int _damageOfEnemey = DamageAfterDefense (_attackOfEnemey,PlayerObject.Defense*2);
         Debug.Log ("Enemy damage "+ _damageOfEnemey.ToString());
-        FightMessage.text += "Player HP -" + _damageOfEnemey.ToString () + "\n";
+        //FightMessage.text += "Player HP -" + _damageOfEnemey.ToString () + "\n";
+        BatterTextController.SetText ("Player HP -" + _damageOfEnemey.ToString () + "\n");
         PlayerObject.GetDamage (_damageOfEnemey);
 
       } else{
-        FightMessage.text += "Miss!!\n";
+        //FightMessage.text += "Miss!!\n";
+        BatterTextController.SetText ("Miss!!\n");
       }
 
     }
 
     private void PlayerAction(){
-
-      FightMessage.text += "Player Attack!!\n";
+      
+      //FightMessage.text += "Player Attack!!\n";
+      BatterTextController.SetText ("Player Attack!!\n");
       if (IsHit(PlayerObject.HitRate,EnemyObject.MissRate)) {
         int _attackOfPlayer = PlayerObject.AttackDamage ();
         if (IsCriticalStrike (PlayerObject.CriticalStrike)) {
           _attackOfPlayer = _attackOfPlayer * 2;
-          FightMessage.text += "Critical Strike!!\n";
+          //FightMessage.text += "Critical Strike!!\n";
+          BatterTextController.SetText ("Critical Strike!!\n");
         }
         Debug.Log ("Player attack "+ _attackOfPlayer.ToString());
         int _damageOfPlayer = DamageAfterDefense (_attackOfPlayer,EnemyObject.Defense);
         Debug.Log ("Player damage "+ _damageOfPlayer.ToString());
-        FightMessage.text += "Enemy HP -" + _damageOfPlayer.ToString () + "\n";
+        //FightMessage.text += "Enemy HP -" + _damageOfPlayer.ToString () + "\n";
+        BatterTextController.SetText ("Enemy HP -" + _damageOfPlayer.ToString () + "\n");
         EnemyObject.GetDamage (_damageOfPlayer);
 
       } else{
-        FightMessage.text += "Miss!!\n";
+        //FightMessage.text += "Miss!!\n";
+        BatterTextController.SetText ("Miss!!\n");
       }
     }
 
     private void EnemyAction(){
 
-      FightMessage.text += "Enemy Attack!!\n";
+      //FightMessage.text += "Enemy Attack!!\n";
+      BatterTextController.SetText ("Enemy Attack!!\n");
       if (IsHit(EnemyObject.HitRate,PlayerObject.MissRate)) {
         int _attackOfEnemey = EnemyObject.AttackDamage ();
         if (IsCriticalStrike (EnemyObject.CriticalStrike)) {
           _attackOfEnemey = _attackOfEnemey * 2;
-          FightMessage.text += "Critical Strike!!\n";
+          //FightMessage.text += "Critical Strike!!\n";
+          BatterTextController.SetText ("Critical Strike!!\n");
         }
         Debug.Log ("Enemy attack "+ _attackOfEnemey.ToString());
         int _damageOfEnemey = DamageAfterDefense (_attackOfEnemey,PlayerObject.Defense);
         Debug.Log ("Enemy damage "+ _damageOfEnemey.ToString());
-        FightMessage.text += "Player HP -" + _damageOfEnemey.ToString () + "\n";
+        //FightMessage.text += "Player HP -" + _damageOfEnemey.ToString () + "\n";
+        BatterTextController.SetText ("Player HP -" + _damageOfEnemey.ToString () + "\n");
         PlayerObject.GetDamage (_damageOfEnemey);
 
       } else{
-        FightMessage.text += "Miss!!\n";
+        //FightMessage.text += "Miss!!\n";
+        BatterTextController.SetText ("Miss!!\n");
       }
 
     }
