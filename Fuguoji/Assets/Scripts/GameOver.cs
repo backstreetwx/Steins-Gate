@@ -5,12 +5,11 @@ using System.Collections;
 
 public class GameOver : MonoBehaviour {
 
-  public Text PlayerHPText;
-  public Text EnemyHPText;
+  public PlayerController PlayerObject;
+  public EnemyController EnemyObject;
   public Text GameOverText;
   public Text GameRestartText;
 
-  public Text GameFightText;
   private string playerHP;
   private string enemyHP;
 
@@ -19,26 +18,12 @@ public class GameOver : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-    playerHP = PlayerHPText.text;
-    enemyHP  = EnemyHPText.text;
     gameOver = false;
     restart = false;
 	}
 	
 	// Update is called once per frame
   void FixedUpdate () {
-    playerHP = PlayerHPText.text;
-    enemyHP  = EnemyHPText.text;
-
-    if (int.Parse(playerHP) <= 0) {
-      GameOverText.text = "Player Lose";
-      gameOver = true;
-    }
-
-    if (int.Parse(enemyHP)<=0) {
-      GameOverText.text = "Player Win";
-      gameOver = true;
-    }
 
     if (gameOver) {
       GameRestartText.text = "Press 'R' for Restart";
@@ -52,6 +37,12 @@ public class GameOver : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
       }
     }
-
 	}
+
+  public void GameIsOver(){
+
+    GameOverText.text = "Game Over";
+    gameOver = true;
+
+  }
 }

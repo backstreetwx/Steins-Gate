@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
   public PlayerController PlayerObject;
   public EnemyController EnemyObject;
+  public GameOver GameOverObject;
   public Text FightMessage;
+  public UnityEvent GameOver;
 
   private int PlayerHitRate;
   private int PlayerMissRate;
@@ -21,20 +24,23 @@ public class GameManager : MonoBehaviour {
   private int DefaultHitRate = 50;
 
   void Awake(){
-    PlayerHitRate = PlayerObject.GetHitRate ();
-    PlayerMissRate = PlayerObject.GetMissRate ();
-    PlayerCriticalStrike = PlayerObject.GetCriticalStrike ();
-    PlayerDefense = PlayerObject.GetDefense ();
+    
+    PlayerHitRate = PlayerObject.HitRate;
+    PlayerMissRate = PlayerObject.MissRate;
+    PlayerCriticalStrike = PlayerObject.CriticalStrike;
+    PlayerDefense = PlayerObject.Defense;
 
-    EnemyHitRate = EnemyObject.GetHitRate ();
-    EnemyMissRate = EnemyObject.GetMissRate ();
-    EnemyCriticalStrike = EnemyObject.GetCriticalStrike ();
-    EnemyDefense = EnemyObject.GetDefense ();
+    EnemyHitRate = EnemyObject.HitRate;
+    EnemyMissRate = EnemyObject.MissRate;
+    EnemyCriticalStrike = EnemyObject.CriticalStrike;
+    EnemyDefense = EnemyObject.Defense;
 
   }
 	// Use this for initialization
 	void Start () {
-    
+    GameOver = new UnityEvent();
+    GameOver.AddListener (GameOverObject.GameIsOver);
+
 	}
 	
 	// Update is called once per frame
@@ -50,8 +56,9 @@ public class GameManager : MonoBehaviour {
     if (_playerSpeed >= _enemySpeed) {
       
       PlayerAction ();
-      if (EnemyObject.GetHP () <= 0) {
+      if (EnemyObject.EnemyHP <= 0) {
         FightMessage.text += "Enemy Dead\n";
+        GameOver.Invoke ();
       } else {
         EnemyAction ();
       }
@@ -60,8 +67,9 @@ public class GameManager : MonoBehaviour {
     if (_playerSpeed < _enemySpeed) {
 
       EnemyAction ();
-      if (PlayerObject.GetHP () <= 0) {
+      if (PlayerObject.PlayerHP <= 0) {
         FightMessage.text += "Player Dead\n";
+        GameOver.Invoke ();
       } else {
         PlayerAction ();
       }
@@ -75,7 +83,7 @@ public class GameManager : MonoBehaviour {
     FightMessage.text += "Player Defense!!\n";
     FightMessage.text += "Enemy Attack!!\n";
     if (IsHit(EnemyHitRate,PlayerMissRate)) {
-      int _attackOfEnemey = EnemyObject.AttackAction ();
+      int _attackOfEnemey = EnemyObject.AttackDamage ();
       if (IsCriticalStrike (EnemyCriticalStrike)) {
         _attackOfEnemey = _attackOfEnemey * 2;
         FightMessage.text += "Critical Strike!!\n";
@@ -84,7 +92,7 @@ public class GameManager : MonoBehaviour {
       int _damageOfEnemey = DamageAfterDefense (_attackOfEnemey,PlayerDefense*2);
       Debug.Log ("Enemy damage "+ _damageOfEnemey.ToString());
       FightMessage.text += "Player HP -" + _damageOfEnemey.ToString () + "\n";
-      PlayerObject.Attacked (_damageOfEnemey);
+      PlayerObject.GetDamage (_damageOfEnemey);
 
     } else{
       FightMessage.text += "Miss!!\n";
@@ -96,7 +104,7 @@ public class GameManager : MonoBehaviour {
 
     FightMessage.text += "Player Attack!!\n";
     if (IsHit(PlayerHitRate,EnemyMissRate)) {
-      int _attackOfPlayer = PlayerObject.AttackAction ();
+      int _attackOfPlayer = PlayerObject.AttackDamage ();
       if (IsCriticalStrike (PlayerCriticalStrike)) {
         _attackOfPlayer = _attackOfPlayer * 2;
         FightMessage.text += "Critical Strike!!\n";
@@ -105,7 +113,7 @@ public class GameManager : MonoBehaviour {
       int _damageOfPlayer = DamageAfterDefense (_attackOfPlayer,EnemyDefense);
       Debug.Log ("Player damage "+ _damageOfPlayer.ToString());
       FightMessage.text += "Enemy HP -" + _damageOfPlayer.ToString () + "\n";
-      EnemyObject.Attacked (_damageOfPlayer);
+      EnemyObject.GetDamage (_damageOfPlayer);
 
     } else{
       FightMessage.text += "Miss!!\n";
@@ -116,7 +124,7 @@ public class GameManager : MonoBehaviour {
   
     FightMessage.text += "Enemy Attack!!\n";
     if (IsHit(EnemyHitRate,PlayerMissRate)) {
-      int _attackOfEnemey = EnemyObject.AttackAction ();
+      int _attackOfEnemey = EnemyObject.AttackDamage ();
       if (IsCriticalStrike (EnemyCriticalStrike)) {
         _attackOfEnemey = _attackOfEnemey * 2;
         FightMessage.text += "Critical Strike!!\n";
@@ -125,7 +133,7 @@ public class GameManager : MonoBehaviour {
       int _damageOfEnemey = DamageAfterDefense (_attackOfEnemey,PlayerDefense);
       Debug.Log ("Enemy damage "+ _damageOfEnemey.ToString());
       FightMessage.text += "Player HP -" + _damageOfEnemey.ToString () + "\n";
-      PlayerObject.Attacked (_damageOfEnemey);
+      PlayerObject.GetDamage (_damageOfEnemey);
 
     } else{
       FightMessage.text += "Miss!!\n";
@@ -161,8 +169,11 @@ public class GameManager : MonoBehaviour {
   }
 
   private int DamageAfterDefense(int attack,int defense){
-  
-    return Mathf.CeilToInt((attack * attack) / (attack + defense));
+
+    int _value = Mathf.CeilToInt((attack * attack) / (attack + defense));
+    Debug.Log ("Damage After Defense " + _value);
+
+    return _value;
   }
 
 

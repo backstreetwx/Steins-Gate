@@ -6,18 +6,16 @@ public class PlayerController : MonoBehaviour {
 
   public GameObject AttackObject;
   public Text PlayerHPText;
-  public int AttackMin;
-  public int AttackMax;
-  public static int Attack;
-  public static string State;
   public int CriticalStrike;
   public int HitRate;
   public int MissRate;
   public int Defense;
+  public int PlayerHP;
+
+  public int AttackMin;
+  public int AttackMax;
 
   private float Speed;
-  private int playerHP;
-
   private Animator animator;
 
   void Awake(){
@@ -28,16 +26,14 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
     
-    State = "init";
-    playerHP = 100;
-    PlayerHPText.text = playerHP.ToString ();
-    Attack = Random.Range (AttackMin, AttackMax);
+    PlayerHP = 100;
+    PlayerHPText.text = PlayerHP.ToString ();
 
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-    PlayerHPText.text = playerHP.ToString ();
+    PlayerHPText.text = PlayerHP.ToString ();
 	}
 
   public float GetSpeed(){
@@ -47,39 +43,17 @@ public class PlayerController : MonoBehaviour {
     return _speed;
   }
 
-  public int AttackAction(){
+  public int AttackDamage(){
     animator.SetTrigger ("PlayerAttack");
     int _attackOfPlayer = Random.Range (AttackMin, AttackMax);
     Debug.Log ("Player attack : " + _attackOfPlayer.ToString());
     return _attackOfPlayer;
   }
 
-  public void Attacked(int demage){
-    playerHP = playerHP - demage;
+  public void GetDamage(int demage){
+    PlayerHP = PlayerHP - demage;
 
-    Debug.Log ("Player HP : " + playerHP.ToString());
-  }
-
-  public int GetHP(){
-
-    return playerHP;
-  }
-
-  public int GetCriticalStrike(){
-    return CriticalStrike;
-  }
-
-  public int GetHitRate(){
-    return HitRate;
-  }
-  public int GetMissRate(){
-    return MissRate;
-
-  }
-
-  public int GetDefense(){
-
-    return Defense;
+    Debug.Log ("Player HP : " + PlayerHP.ToString());
   }
 
 }
