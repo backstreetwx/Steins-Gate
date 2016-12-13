@@ -4,7 +4,6 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
-  public GameObject AttackObject;
   public Text PlayerHPText;
   public int CriticalStrike;
   public int HitRate;
@@ -20,7 +19,6 @@ public class PlayerController : MonoBehaviour {
 
   void Awake(){
     animator = GetComponent<Animator> ();
-    AttackObject = GetComponent<GameObject> ();
   }
 
 	// Use this for initialization

@@ -4,7 +4,6 @@ using System.Collections;
 
 public class EnemyController : MonoBehaviour {
 
-  public GameObject AttackObject;
   public Text EnemyHPText;
   public int CriticalStrike;
   public int HitRate;
@@ -20,7 +19,7 @@ public class EnemyController : MonoBehaviour {
 	
   void Awake(){
     animator = GetComponent<Animator> ();
-    AttackObject = GetComponent<GameObject> ();
+
   }
 
 	void Start () {

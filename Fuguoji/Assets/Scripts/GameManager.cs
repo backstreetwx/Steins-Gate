@@ -44,8 +44,11 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void FixedUpdate () {
+	  
+    if (EnemyObject.EnemyHP <= 0||PlayerObject.PlayerHP <= 0) {
+      GameOver.Invoke ();
+    }
 	}
 
   public void GameStart(){
@@ -58,7 +61,6 @@ public class GameManager : MonoBehaviour {
       PlayerAction ();
       if (EnemyObject.EnemyHP <= 0) {
         FightMessage.text += "Enemy Dead\n";
-        GameOver.Invoke ();
       } else {
         EnemyAction ();
       }
@@ -69,7 +71,6 @@ public class GameManager : MonoBehaviour {
       EnemyAction ();
       if (PlayerObject.PlayerHP <= 0) {
         FightMessage.text += "Player Dead\n";
-        GameOver.Invoke ();
       } else {
         PlayerAction ();
       }
