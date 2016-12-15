@@ -2,12 +2,12 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
-using Enemies;
-using Players;
+using Battle.Enemies;
+using Battle.Players;
 
-namespace GameOver
+namespace Battle.BattleOver
 {
-  public class GameOverManager : MonoBehaviour {
+  public class BattleOverManager : MonoBehaviour {
 
     public PlayerController PlayerObject;
     public EnemyController EnemyObject;

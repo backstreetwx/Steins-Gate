@@ -2,18 +2,18 @@
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
-using Enemies;
-using Players;
-using GameOver;
-using UI;
+using Battle.Enemies;
+using Battle.Players;
+using Battle.BattleOver;
+using Battle.BattleUI;
 
-namespace GamePlay
+namespace Battle.BattleStart
 {
-  public class BattleManager : MonoBehaviour {
+  public class BattleStartManager : MonoBehaviour {
 
     public PlayerController PlayerObject;
     public EnemyController EnemyObject;
-    public GameOverManager GameOverObject;
+    public BattleOverManager GameOverObject;
     public BattleProgressTextController BattleTextController;
 
     public UnityEvent GameOverEvent;
