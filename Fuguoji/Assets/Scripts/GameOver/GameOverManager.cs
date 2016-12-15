@@ -43,9 +43,9 @@ namespace GameOver
       }
   	}
 
-    public void GameIsOver(){
+    public void GameIsOver(string message){
 
-      GameOverText.text = "Game Over";
+      GameOverText.text = message;
       gameOver = true;
 
     }

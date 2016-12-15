@@ -17,27 +17,31 @@ namespace Enemies
     public int AttackMin;
     public int AttackMax;
 
-    private float Speed;
+    public string State;
+
+    public float Speed;
     private Animator animator;
-  	
+
     void Awake(){
       animator = GetComponent<Animator> ();
 
     }
 
-  	void Start () {
-      
-  		EnemyHP = 100;
+    void Start () {
+      State = "Init";
+      Speed = Random.Range (0, 10);
+      Debug.Log ("" + gameObject.name + " Speed :" + Speed);
+      EnemyHP = 100;
       EnemyHPText.text = EnemyHP.ToString ();
-  	}
-  	
-  	// Update is called once per frame
-    void FixedUpdate () {
-      EnemyHPText.text = EnemyHP.ToString ();	  
-  	}
+    }
+
+    // Update is called once per frame
+    void Update () {
+      EnemyHPText.text = EnemyHP.ToString ();
+    }
 
     public float GetSpeed(){
-      
+
       float _speed = Random.Range (0, 10);
       Debug.Log ("Enemy Speed :" + _speed);
       return _speed;

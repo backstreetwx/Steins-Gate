@@ -17,10 +17,15 @@ namespace Players
     public int AttackMin;
     public int AttackMax;
 
-    private float Speed;
+    public string State;
+
+    public float Speed;
     private Animator animator;
 
     void Awake(){
+      State = "Init";
+      Speed = Random.Range (0, 10);
+      Debug.Log ("" + gameObject.name + " Speed :" + Speed);
       animator = GetComponent<Animator> ();
     }
 
