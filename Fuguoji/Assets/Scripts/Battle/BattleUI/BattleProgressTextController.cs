@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 
-namespace UI{
+namespace Battle.BattleUI{
   
   public class BattleProgressTextController : MonoBehaviour {
 
