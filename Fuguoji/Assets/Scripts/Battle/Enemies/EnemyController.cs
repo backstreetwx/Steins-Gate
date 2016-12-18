@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 
-namespace Enemies
+namespace Battle.Enemies
 {
   public class EnemyController : MonoBehaviour {
 
